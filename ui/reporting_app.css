@@ -1,0 +1,133 @@
+:root {
+  font-family: Inter, system-ui, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f6f8fb;
+  color: #1d2840;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 24px auto;
+  padding: 0 16px 32px;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #d6deeb;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.grid-2,
+.grid-4 {
+  display: grid;
+  gap: 8px;
+}
+
+.grid-2 { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(220px, 1fr)); }
+
+.stack { display: grid; gap: 8px; }
+.actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+
+input,
+button,
+select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #b9c3d5;
+}
+
+button {
+  background: #2c64ff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.actions a {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #2c64ff;
+  color: #2c64ff;
+  text-decoration: none;
+  background: #eef3ff;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.card {
+  border: 1px solid #dbe5ff;
+  background: #f8faff;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.card h3 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: #4a5b7a;
+}
+
+.card p {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 13px;
+  min-width: 980px;
+}
+
+th,
+td {
+  border: 1px solid #e2e8f5;
+  padding: 6px;
+  text-align: left;
+}
+
+th {
+  background: #eef3ff;
+  position: sticky;
+  top: 0;
+}
+
+.hint {
+  color: #51607c;
+  font-size: 12px;
+}
+
+.error {
+  color: #c62828;
+  font-weight: 600;
+}
+
+@media print {
+  .actions,
+  #linksCsvInput,
+  #operationsForm,
+  #savedReportsSelect,
+  #loadSavedReportBtn,
+  #clearSavedReportsBtn {
+    display: none !important;
+  }
+
+  body { background: #fff; }
+  .panel { border: 1px solid #ccc; }
+}
