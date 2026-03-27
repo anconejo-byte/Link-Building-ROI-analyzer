@@ -11,18 +11,13 @@
     <h1>Link-Building Profitability Reporting Layer</h1>
 
     <section class="panel">
-      <h2>Global Filters & Actions</h2>
+      <h2>Global Date Filter</h2>
       <div class="grid-2">
         <label>Start Date <input id="startDate" type="date" /></label>
         <label>End Date <input id="endDate" type="date" /></label>
       </div>
-      <div class="actions">
-        <button id="loadMockDataBtn" type="button">Load Mock Data</button>
-        <button id="recalculateBtn" type="button">Recalculate Dashboard</button>
-        <button id="saveReportBtn" type="button">Save Current Report</button>
-        <button id="exportPdfBtn" type="button">Export as PDF</button>
-      </div>
-      <p class="hint">Tip: Use “Export as PDF” in your browser print dialog with “Save as PDF”.</p>
+      <button id="recalculateBtn">Recalculate Dashboard</button>
+      <p class="hint">All three report sections are recalculated from these dates.</p>
     </section>
 
     <section class="panel">
@@ -32,60 +27,58 @@
         <input name="period_start" type="date" required />
         <input name="period_end" type="date" required />
         <input name="lead_count" type="number" min="0" placeholder="Leads" required />
-        <input name="salary_per_builder" type="number" min="0" step="0.01" placeholder="Salary per Link Builder" required />
-        <input name="link_builders_count" type="number" min="1" step="1" placeholder="Total Link Builders" required />
-        <input name="tools_cost" type="number" min="0" step="0.01" placeholder="Tools Cost" required />
+        <input name="labor_cost" type="number" min="0" step="0.01" placeholder="Labor" required />
+        <input name="tools_cost" type="number" min="0" step="0.01" placeholder="Tools" required />
+        <input name="overhead_cost" type="number" min="0" step="0.01" placeholder="Overhead" required />
         <button type="submit">Add Period</button>
       </form>
       <table id="operationsTable"></table>
     </section>
 
     <section class="panel">
-      <h2>Input: Links (Manual Entry)</h2>
-      <form id="linkForm" class="grid-4">
-        <input name="link_id" type="number" min="1" step="1" placeholder="Link ID" required />
-        <input name="landing_page" type="url" placeholder="Landing Page URL" required />
-        <input name="backlink_url" type="url" placeholder="Backlink URL" required />
-        <input name="backlink_ftds_amount" type="number" min="0" step="1" placeholder="Backlink FTDs Amount" required />
-        <input name="backlinks_deposits_amount" type="number" min="0" step="0.01" placeholder="Backlinks Deposits Amount" required />
-        <input name="backlink_cost" type="number" min="0" step="0.01" placeholder="Backlink Cost" required />
-        <input name="landing_page_ftds_amount" type="number" min="0" step="1" placeholder="Landing Page FTDs Amount" required />
-        <input name="landing_page_ftds_deposits" type="number" min="0" step="0.01" placeholder="Landing Page FTDs Deposits" required />
-        <input name="placement_date" type="date" required />
-        <input name="period_id" type="number" min="1" step="1" placeholder="Period ID" required />
-        <input name="sessions" type="number" min="0" step="1" placeholder="Sessions" required />
-        <input name="allocation_weight" type="number" min="0" step="0.0001" placeholder="Allocation Weight" value="1" required />
-        <button type="submit">Add Link</button>
+      <h2>Input: URLs</h2>
+      <form id="urlForm" class="grid-3">
+        <input name="canonical_url" type="url" placeholder="https://example.com/page" required />
+        <input name="campaign_name" placeholder="Campaign (optional)" />
+        <button type="submit">Add URL</button>
       </form>
+      <table id="urlsTable"></table>
     </section>
 
     <section class="panel">
-      <h2>Input: Links (CSV Upload - Optional)</h2>
-      <div class="stack">
-        <p class="hint">Required CSV columns: <code>link_id,landing_page,backlink_url,backlink_ftds_amount,backlinks_deposits_amount,backlink_cost,landing_page_ftds_amount,landing_page_ftds_deposits,placement_date,period_id,sessions,allocation_weight</code></p>
-        <input id="linksCsvInput" type="file" accept=".csv,text/csv" />
-        <div class="actions">
-          <button id="uploadCsvBtn" type="button">Upload CSV</button>
-          <button id="loadMockDataBtnInline" type="button">Use Built-in Mock Data</button>
-          <a href="./mock_links.csv" download>Download Mock CSV</a>
-        </div>
-      </div>
-      <p id="csvError" class="error"></p>
+      <h2>Input: Links</h2>
+      <form id="linkForm" class="grid-4">
+        <input name="url_id" type="number" min="1" placeholder="URL ID" required />
+        <input name="period_id" type="number" min="1" placeholder="Period ID" required />
+        <input name="source_domain" placeholder="Source Domain" required />
+        <input name="placement_date" type="date" required />
+        <input name="direct_link_cost" type="number" min="0" step="0.01" placeholder="Direct Cost" required />
+        <input name="sessions" type="number" min="0" placeholder="Sessions" required />
+        <input name="allocation_weight" type="number" min="0" step="0.0001" placeholder="Allocation Weight" value="1" required />
+        <button type="submit">Add Link</button>
+      </form>
       <table id="linksTable"></table>
     </section>
 
     <section class="panel">
-      <h2>Saved Reports</h2>
-      <div class="actions">
-        <select id="savedReportsSelect"></select>
-        <button id="loadSavedReportBtn" type="button">Load Selected Report</button>
-        <button id="clearSavedReportsBtn" type="button">Clear Saved Reports</button>
-      </div>
+      <h2>Input: Link Attribution</h2>
+      <form id="attributionForm" class="grid-4">
+        <input name="link_id" type="number" min="1" placeholder="Link ID" required />
+        <input name="conversion_event_id" placeholder="Unique Conversion Event ID" required />
+        <input name="conversion_date" type="date" required />
+        <input name="conversions" type="number" min="0" placeholder="Conversions" value="1" required />
+        <input name="revenue" type="number" min="0" step="0.01" placeholder="Revenue" required />
+        <input name="first_time_deposit_count" type="number" min="0" placeholder="FTDs" value="0" required />
+        <input name="attribution_weight" type="number" min="0" step="0.0001" value="1" placeholder="Attribution Weight" required />
+        <button type="submit">Add Attribution</button>
+      </form>
+      <p id="attributionError" class="error"></p>
+      <table id="attributionTable"></table>
     </section>
 
-    <section class="panel" id="reportArea">
+    <section class="panel">
       <h2>1) Operations Summary</h2>
-      <div id="summaryCards" class="cards"></div>
+      <table id="summaryTable"></table>
     </section>
 
     <section class="panel">
