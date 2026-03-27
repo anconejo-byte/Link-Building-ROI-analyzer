@@ -9,52 +9,6 @@ const state = {
   nextLinkId: 1,
 };
 
-const mockData = {
-  operations_period: [
-    {
-      period_name: "2026-01 Outreach",
-      period_start: "2026-01-01",
-      period_end: "2026-01-31",
-      lead_count: 180,
-      labor_cost: 4200,
-      tools_cost: 800,
-      overhead_cost: 1000,
-    },
-    {
-      period_name: "2026-02 Outreach",
-      period_start: "2026-02-01",
-      period_end: "2026-02-28",
-      lead_count: 210,
-      labor_cost: 4600,
-      tools_cost: 850,
-      overhead_cost: 1100,
-    },
-  ],
-  urls: [
-    {canonical_url: "https://brand.example/casino-bonus", campaign_name: "Casino SEO"},
-    {canonical_url: "https://brand.example/sportsbook-guide", campaign_name: "Sportsbook SEO"},
-    {canonical_url: "https://brand.example/poker-app", campaign_name: "Poker SEO"},
-  ],
-  links: [
-    {url_id: 1, period_id: 1, source_domain: "news-a.com", placement_date: "2026-01-05", direct_link_cost: 260, sessions: 980, allocation_weight: 1.2},
-    {url_id: 1, period_id: 1, source_domain: "review-hub.com", placement_date: "2026-01-14", direct_link_cost: 320, sessions: 1240, allocation_weight: 1.0},
-    {url_id: 2, period_id: 1, source_domain: "bet-tips.net", placement_date: "2026-01-21", direct_link_cost: 210, sessions: 760, allocation_weight: 0.8},
-    {url_id: 2, period_id: 2, source_domain: "sportsdata.blog", placement_date: "2026-02-07", direct_link_cost: 400, sessions: 1600, allocation_weight: 1.5},
-    {url_id: 3, period_id: 2, source_domain: "poker-insights.io", placement_date: "2026-02-13", direct_link_cost: 230, sessions: 820, allocation_weight: 1.0},
-    {url_id: 3, period_id: 2, source_domain: "affiliate-world.org", placement_date: "2026-02-24", direct_link_cost: 340, sessions: 1100, allocation_weight: 1.3},
-  ],
-  link_attribution: [
-    {link_id: 1, conversion_event_id: "evt_1001", conversion_date: "2026-01-10", conversions: 6, revenue: 850, first_time_deposit_count: 3, attribution_weight: 1},
-    {link_id: 1, conversion_event_id: "evt_1002", conversion_date: "2026-01-18", conversions: 4, revenue: 540, first_time_deposit_count: 2, attribution_weight: 1},
-    {link_id: 2, conversion_event_id: "evt_1003", conversion_date: "2026-01-22", conversions: 8, revenue: 1200, first_time_deposit_count: 4, attribution_weight: 1},
-    {link_id: 3, conversion_event_id: "evt_1004", conversion_date: "2026-01-27", conversions: 5, revenue: 610, first_time_deposit_count: 2, attribution_weight: 1},
-    {link_id: 4, conversion_event_id: "evt_1005", conversion_date: "2026-02-10", conversions: 11, revenue: 1800, first_time_deposit_count: 6, attribution_weight: 1},
-    {link_id: 5, conversion_event_id: "evt_1006", conversion_date: "2026-02-16", conversions: 7, revenue: 970, first_time_deposit_count: 3, attribution_weight: 1},
-    {link_id: 6, conversion_event_id: "evt_1007", conversion_date: "2026-02-25", conversions: 9, revenue: 1410, first_time_deposit_count: 5, attribution_weight: 1},
-    {link_id: 4, conversion_event_id: "evt_1008", conversion_date: "2026-02-27", conversions: 3, revenue: 420, first_time_deposit_count: 1, attribution_weight: 1},
-  ],
-};
-
 const money = (n) => Number(n || 0).toFixed(2);
 const pct = (n) => `${(Number(n || 0) * 100).toFixed(2)}%`;
 
@@ -88,7 +42,6 @@ function renderTable(elementId, columns, rows) {
 }
 
 function addHandlers() {
-  document.getElementById("loadMockDataBtn").addEventListener("click", loadMockData);
   document.getElementById("operationsForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const row = readForm(e.target);
@@ -160,45 +113,6 @@ function addHandlers() {
   });
 
   document.getElementById("recalculateBtn").addEventListener("click", refresh);
-}
-
-function resetState() {
-  state.operations_period = [];
-  state.urls = [];
-  state.links = [];
-  state.link_attribution = [];
-  state.seenConversionEvents = new Set();
-  state.nextPeriodId = 1;
-  state.nextUrlId = 1;
-  state.nextLinkId = 1;
-}
-
-function loadMockData() {
-  resetState();
-
-  for (const op of mockData.operations_period) {
-    state.operations_period.push({...op, period_id: state.nextPeriodId++});
-  }
-
-  for (const url of mockData.urls) {
-    state.urls.push({...url, url_id: state.nextUrlId++});
-  }
-
-  for (const link of mockData.links) {
-    state.links.push({...link, link_id: state.nextLinkId++});
-  }
-
-  for (const attr of mockData.link_attribution) {
-    if (!state.seenConversionEvents.has(attr.conversion_event_id)) {
-      state.seenConversionEvents.add(attr.conversion_event_id);
-      state.link_attribution.push({...attr});
-    }
-  }
-
-  document.getElementById("startDate").value = "2026-01-01";
-  document.getElementById("endDate").value = "2026-02-28";
-  document.getElementById("attributionError").textContent = "";
-  refresh();
 }
 
 function buildLinkPerf(startDate, endDate) {

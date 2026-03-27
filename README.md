@@ -15,7 +15,6 @@ This implementation provides:
 - `ui/reporting_app.html`: User input + reporting UI.
 - `ui/reporting_app.js`: Frontend calculation engine and aggregation logic.
 - `ui/reporting_app.css`: Styles for the reporting app.
-- `sql/mock_data.sql`: SQL seed data for test/demo runs.
 
 ## No Double Counting
 - DB level: `link_attribution.conversion_event_id` is unique.
@@ -40,11 +39,3 @@ Open `ui/reporting_app.html` in a browser (or serve with any static file server)
 4. Link attribution rows
 
 Then apply date range and click **Recalculate Dashboard**.
-
-To quickly test, click **Load Mock Data** in the UI.
-
-## Seed Database Quickly
-Load schema + mock data:
-
-1. Run `sql/schema.sql`
-2. Run `sql/mock_data.sql`
