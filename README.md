@@ -6,43 +6,36 @@ This implementation provides:
 - **URL-level rollups** generated from link-level derived data
 - **Date-range filtering** for all report sections
 - **Weighted cost allocation** via `allocation_weight`
-- **Frontend reporting layer** with CSV link import, report save, and PDF export
+- **Frontend reporting layer** where users can input operational/link/attribution data and recalculate all dashboard outputs
 
 ## Files
 - `sql/schema.sql`: Tables, constraints, and anti-double-counting uniqueness.
 - `backend/app.py`: Backend query logic and `/dashboard` API contract.
-- `ui/reporting_app.html`: User-facing reporting UI.
+- `ui/dashboard_layout.md`: 3-section dashboard wireframe and integration contract.
+- `ui/reporting_app.html`: User input + reporting UI.
 - `ui/reporting_app.js`: Frontend calculation engine and aggregation logic.
 - `ui/reporting_app.css`: Styles for the reporting app.
-- `ui/mock_links.csv`: Mock CSV file for link import testing.
-- `sql/mock_data.sql`: SQL seed data for DB test/demo runs.
 
-## Updated UI Behavior
-- Removed manual URL input form.
-- Link input supports both:
-  - manual link entry (primary)
-  - CSV upload (secondary)
-  with required columns:
-  `link_id,landing_page,backlink_url,backlink_ftds_amount,backlinks_deposits_amount,backlink_cost,landing_page_ftds_amount,landing_page_ftds_deposits,placement_date,period_id,sessions,allocation_weight`
-- Operations form uses:
-  - salary per link builder
-  - total number of link builders
-  - tools cost
-  (no overhead field)
-- Operations summary is rendered as cards for better readability.
-- Link-level report includes backlink URL and money brought.
-- URL-level report shows URL generation vs link costs (no cost_per_ftd).
-- Save current report snapshot in browser storage and reload it later.
-- Export current view to PDF using browser print flow.
+## No Double Counting
+- DB level: `link_attribution.conversion_event_id` is unique.
+- Frontend level: duplicate `conversion_event_id` is blocked at input time.
+
+## Query Pattern
+All reporting sections use a shared `link_perf` logic:
+1. Filters links by date range.
+2. Allocates period operational cost to links (weighted or fallback equal split).
+3. Aggregates attributed conversions/revenue per link.
+
+Then:
+- Operations summary aggregates `link_perf`
+- Link table shows per-link metrics
+- URL table aggregates link rows
 
 ## Run Frontend
-1. Open `ui/reporting_app.html` in a browser (hard refresh if you were previously on an older cached version).
-2. Add operations period rows.
-3. Add links manually and/or upload `ui/mock_links.csv` (or your own CSV with required columns).
-4. Pick date range and click **Recalculate Dashboard**.
-5. Optionally click **Save Current Report** and **Export as PDF**.
+Open `ui/reporting_app.html` in a browser (or serve with any static file server) and enter:
+1. Operations periods
+2. URLs
+3. Links
+4. Link attribution rows
 
-## Seed Database Quickly
-Load schema + mock data:
-1. Run `sql/schema.sql`
-2. Run `sql/mock_data.sql`
+Then apply date range and click **Recalculate Dashboard**.
