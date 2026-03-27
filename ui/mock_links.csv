@@ -1,0 +1,7 @@
+link_id,landing_page,backlink_url,backlink_ftds_amount,backlinks_deposits_amount,backlink_cost,landing_page_ftds_amount,landing_page_ftds_deposits,placement_date,period_id,sessions,allocation_weight
+1,https://brand.example/casino-bonus,https://news-a.com/brand-casino-review,6,850,260,19,2590,2026-01-05,1,980,1.2
+2,https://brand.example/casino-bonus,https://review-hub.com/top-casino-bonuses,8,1200,320,19,2590,2026-01-14,1,1240,1.0
+3,https://brand.example/casino-bonus,https://bet-tips.net/casino-free-spins,5,540,210,19,2590,2026-01-21,1,760,0.8
+4,https://brand.example/sportsbook-guide,https://sportsdata.blog/best-sportsbooks,11,1800,400,21,3220,2026-02-07,2,1600,1.5
+5,https://brand.example/poker-app,https://poker-insights.io/mobile-poker-apps,7,970,230,16,2380,2026-02-13,2,820,1.0
+6,https://brand.example/poker-app,https://affiliate-world.org/poker-app-promo,9,1410,340,16,2380,2026-02-24,2,1100,1.3
